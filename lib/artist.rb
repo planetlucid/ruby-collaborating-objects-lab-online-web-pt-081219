@@ -1,28 +1,38 @@
-class Song
-  attr_accessor :title
- 
-  def self.new_by_filename(filename)
-    song = self.new
-    song.title = filename.split(" - ")[1]
-    song
-  end
- 
-end
- 
-class MP3Importer
-  def import(list_of_filenames)
-    list_of_filenames.each{ |filename| Song.new_by_filename(filename) }
-end
   
 class Artist
-  attr_accessor :name
- 
+  @@all = []
+  attr_accessor :name, :songs
+
   def initialize(name)
     @name = name
+    save
   end
- 
-  # other methods
- 
+
+  def self.all
+    @@all    
   end
-  
+
+  def add_song(song)
+    song.artist = self
+  end
+
+  def songs
+    Song.all.select {|song| song.artist == self}
+  end
+
+  def self.find_or_create_by_name(name)
+    self.find(name) ? self.find(name) : self.new(name)
+  end
+
+  def self.find(name)
+    self.all.find {|artist| artist.name == name }
+  end
+
+  def save
+    @@all << self
+  end
+
+  def print_songs
+    songs.each {|song| puts song.name}
+  end
 end
