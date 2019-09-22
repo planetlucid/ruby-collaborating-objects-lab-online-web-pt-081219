@@ -12,9 +12,17 @@ end
 class MP3Importer
   def import(list_of_filenames)
     list_of_filenames.each{ |filename| Song.new_by_filename(filename) }
+end
+  
+class Artist
+  attr_accessor :name
+ 
+  def initialize(name)
+    @name = name
   end
-  
-  
-  
+ 
+  # other methods
+ 
+  end
   
 end
